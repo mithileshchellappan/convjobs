@@ -33,7 +33,7 @@ export const getResumesOfUser = query({
     .filter(q => q.eq(q.field("uploadedUser"),user))
     .collect()
     
-    Promise.all(
+    await Promise.all(
       resumes.map(async (resume:typeof resumes[0]) => {
         resume.url = await ctx.storage.getUrl(resume.storageId) || ""
       })
