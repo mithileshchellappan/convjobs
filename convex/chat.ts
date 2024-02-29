@@ -36,7 +36,7 @@ export const answer = internalAction({
     },
     handler: async (ctx, { sessionId, message,resumeEmbeddingId }) => {
 
-      const model = new ChatOpenAI({ modelName: "gpt-4" });
+      const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
       const chatHistory = new ConvexChatMessageHistory({ sessionId, ctx })
   
       const memory = new BufferMemory({
