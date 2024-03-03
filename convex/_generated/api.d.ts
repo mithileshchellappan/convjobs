@@ -17,7 +17,6 @@ import type {
 import type * as chat from "../chat.js";
 import type * as ingest_embed from "../ingest/embed.js";
 import type * as langchain_db from "../langchain/db.js";
-import type * as myFunctions from "../myFunctions.js";
 import type * as pdf from "../pdf.js";
 import type * as resume from "../resume.js";
 import type * as utils from "../utils.js";
@@ -34,7 +33,6 @@ declare const fullApi: ApiFromModules<{
   chat: typeof chat;
   "ingest/embed": typeof ingest_embed;
   "langchain/db": typeof langchain_db;
-  myFunctions: typeof myFunctions;
   pdf: typeof pdf;
   resume: typeof resume;
   utils: typeof utils;
