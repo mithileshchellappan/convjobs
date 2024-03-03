@@ -42,6 +42,22 @@ export const getResumesOfUser = query({
   }
 })
 
+export const searchResume = action({
+  args: {
+      query: v.string()
+  },
+  handler: async (ctx, {query}) => {
+      const embed = await embedTexts(query)
+      const results = await ctx.vectorSearch("resumeEmbeddings","by_embedding",{
+          vector: embed[0],
+          limit: 16
+      })
+      const rows = await ctx.runQuery(internal.resume.fetchSearchResult, {results})
+      rows.sort((a,b) => b._score - a._score)
+      console.log("rows",rows)
+  }
+})
+
 export const generateAndAddEmbedding = internalAction({
     args: { resumeId: v.id("resumes"),storageId: v.id("_storage")},
     handler: async (ctx, args) => {
@@ -96,23 +112,7 @@ export const generateAndAddEmbedding = internalAction({
       }
   })
 
-  export const searchResume = action({
-    args: {
-        query: v.string()
-    },
-    handler: async (ctx, {query}) => {
-        const embed = await embedTexts(query)
-        const results = await ctx.vectorSearch("resumeEmbeddings","by_embedding",{
-            vector: embed[0],
-            limit: 16
-        })
-        const rows = await ctx.runQuery(internal.resume.fetchSearchResult, {results})
-        rows.sort((a,b) => b._score - a._score)
-        console.log("rows",rows)
-    }
-  })
-
-  export const getResumeText = internalMutation({
+  export const getResumeText = internalQuery({
     args: {
       resumeEmbeddingId: v.id("resumeEmbeddings")
     },
