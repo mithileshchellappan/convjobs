@@ -11,19 +11,17 @@ module.exports = {
     },
     extend: {
       colors: {
+        primary: "#7FC7D9",
+        secondary: "#DCF2F1",
+        "custom-background": "#365486",
+        "dark-color": "#0F1035",
+        "custom-white": "#f2f2f2",
+        "custom-black": "#000000",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
