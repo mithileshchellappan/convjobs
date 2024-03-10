@@ -13,7 +13,7 @@ const Welcome: React.FC = () => {
           <div>
             <div className="bg-dark-background bg-opacity-90 border border-gray-800 px-4 py-8 mb-2 rounded-lg">
               <h1 className=" w-fit border-b-[1px] border-b-gray-700  mb-6">
-                Welcome to FindWork
+                Welcome to ConvJobs
               </h1>
               <p className="mt-4 text-xl">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
