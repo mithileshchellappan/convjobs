@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 const Welcome: React.FC = () => {
   let navigate = useNavigate();
   return (
-    <div className="min-h-screen">
+    <div>
       <Navbar />
-      <div className="pl-24 pr-24 pt-12 h-screen ">
+      <div className="pl-24 pr-24 pt-12 max-h-screen ">
         <Fade in={true} timeout={1000}>
           <div>
             <div className="bg-dark-background bg-opacity-90 border border-gray-800 px-4 py-8 mb-2 rounded-lg">
