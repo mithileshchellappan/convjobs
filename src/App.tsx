@@ -1,30 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { SignInButton } from "@clerk/clerk-react";
-import {
-  Authenticated,
-  Unauthenticated,
-} from "convex/react";
 import About from "./pages/about/about";
 import Welcome from "./pages/welcome/welcome";
 import Dashboard from "./pages/dashboard/dashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./pages/login/login";
+import MyProfile from "./pages/profile/profile";
 
 export default function App() {
   return (
-    <div className="w-full flex flex-col gap-8 bg-white">
-      <Authenticated>
-      <Welcome />
-        <Dashboard />
-        <About />
-      </Authenticated>
-      <Unauthenticated>
-        <div className="flex justify-center">
-          <SignInButton mode="modal">
-            <Button>Sign in</Button>
-          </SignInButton>
-        </div>
-      </Unauthenticated>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" Component={Login} />
+        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/" Component={Welcome} />
+        <Route path="/profile" Component={MyProfile} />
+        <Route path="/about" Component={About} />
+        {/* <Route path="*" Component={Error} /> */}
+      </Routes>
+    </Router>
   );
 }
-
-

@@ -1,22 +1,27 @@
 import React from "react";
-import placeholder from "../../assets/placeholder.jpg";
+import one from "../../assets/1.jpg";
+import two from "../../assets/2.jpg";
+import three from "../../assets/3.jpg";
+import four from "../../assets/4.jpg";
+
 import { Fade } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
+import MyFooter from "@/components/footer/footer";
 
 const About: React.FC = () => {
   return (
     <>
       <Navbar />
 
-      <div className="text-black">
+      <div className="text-white">
         <h2 className="m-16 text-center text-4xl ">HEADING OF APPLICATION</h2>
 
         <Fade in={true} timeout={1000}>
           <section className="p-0">
-            <div className="mb-16 flex flex-wrap bg-custom-white p-12">
+            <div className="mb-16 flex flex-wrap bg-dark-background p-12">
               <div className="w-1/2 flex justify-center items-center">
                 <div className="cursor-pointer overflow-hidden object-none rounded-lg bg-cover h-[350px] flex justify-center items-center">
-                  <img src={placeholder} className="w-full" />
+                  <img src={one} className="w-full" />
                 </div>
               </div>
 
@@ -45,7 +50,7 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            <div className="mb-16 flex flex-wrap bg-custom-white p-12">
+            <div className="mb-16 flex flex-wrap bg-dark-background p-12">
               <div className="w-6/12 p-12 flex flex-col">
                 <h3 className="mb-4 text-2xl font-bold">Heading</h3>
                 <div className="flex items-center text-sm font-medium">
@@ -72,15 +77,15 @@ const About: React.FC = () => {
 
               <div className="w-1/2 flex justify-center items-center">
                 <div className="cursor-pointer overflow-hidden object-none rounded-lg bg-cover h-[350px] flex justify-center items-center">
-                  <img src={placeholder} className="w-full" />
+                  <img src={two} className="w-full" />
                 </div>
               </div>
             </div>
 
-            <div className="mb-16 flex flex-wrap bg-custom-white p-12">
+            <div className="mb-16 flex flex-wrap bg-dark-background p-12">
               <div className="w-1/2 flex justify-center items-center">
                 <div className="cursor-pointer overflow-hidden object-none rounded-lg bg-cover h-[350px] flex justify-center items-center">
-                  <img src={placeholder} className="w-full" />
+                  <img src={three} className="w-full" />
                 </div>
               </div>
               <div className="w-6/12 p-12 flex flex-col">
@@ -107,7 +112,7 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            <div className="mb-16 flex flex-wrap bg-custom-white p-12">
+            <div className="mb-16 flex flex-wrap bg-dark-background p-12">
               <div className="w-6/12 p-12 flex flex-col">
                 <h3 className="mb-4 text-2xl font-bold">Heading</h3>
                 <div className="flex items-center text-sm font-medium">
@@ -135,12 +140,13 @@ const About: React.FC = () => {
 
               <div className="w-1/2 flex justify-center items-center">
                 <div className="cursor-pointer overflow-hidden object-none rounded-lg bg-cover h-[350px] flex justify-center items-center">
-                  <img src={placeholder} className="w-full" />
+                  <img src={four} className="w-full" />
                 </div>
               </div>
             </div>
           </section>
         </Fade>
+        <MyFooter />
       </div>
     </>
   );

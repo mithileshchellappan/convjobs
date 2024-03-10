@@ -13,10 +13,10 @@ module.exports = {
       colors: {
         primary: "#7FC7D9",
         secondary: "#DCF2F1",
-        "custom-background": "#365486",
         "dark-color": "#0F1035",
         "custom-white": "#f2f2f2",
-        "custom-black": "#000000",
+        "custom-black": "#141414",
+        "dark-background":"#19191A",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
