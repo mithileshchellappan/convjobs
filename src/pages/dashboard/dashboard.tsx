@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { useUser } from "@clerk/clerk-react";
 import { api } from "../../../convex/_generated/api";
-import { Authenticated, useQuery } from "convex/react";
+import { Authenticated, useAction, useQuery } from "convex/react";
 import ResumeCard from "./components/resume-cards";
 import UserResult from "@/interface/UserResume";
 import ChatBox from "./components/chat-box";
@@ -13,11 +13,14 @@ const Dashboard: React.FC = () => {
 
   // TODO - Search implementation for the Dashboard
   let [searchResult, setSearchResult] = useState<[]>();
+  let [searchQuery, setSearchQuery] = useState<string | null>("");
 
   const getUserResumes =
     useQuery(api.resume.getResumesOfUser, {
       user: user?.primaryEmailAddress?.emailAddress || "",
     }) || [];
+
+    const searchResumes = useAction(api.resume.searchResume)
 
   useEffect(() => {
     console.log(user?.emailAddresses[0].emailAddress);
@@ -60,11 +63,19 @@ const Dashboard: React.FC = () => {
                   id="default-search"
                   className="block w-full p-4 my-8 ps-10 text-sm  border border-gray-700 rounded-lg bg-dark-background focus:border-gray-200 focus:outline-none focus:ring-0 transition duration-700"
                   placeholder="Search Resumes, Users, Techstacks..."
+                  onChange={(e)=> setSearchQuery(e.target.value)}
                   required
                 />
                 <button
                   type="submit"
                   className="text-white absolute end-2.5 bottom-2.5 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 font-medium rounded-lg text-sm px-4 py-2 "
+                  onClick={async ()=>{
+                    console.log(searchQuery)
+                    if(searchQuery && searchQuery?.length>0){
+                      const resumes = await searchResumes({query:searchQuery})
+                      setSearchResult(resumes)
+                    }
+                  }}
                 >
                   Search
                 </button>

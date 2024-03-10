@@ -52,9 +52,9 @@ export const searchResume = action({
           vector: embed[0],
           limit: 16
       })
-      const rows = await ctx.runQuery(internal.resume.fetchSearchResult, {results})
-      rows.sort((a,b) => b._score - a._score)
-      console.log("rows",rows)
+      const rows:any = await ctx.runQuery(internal.resume.fetchSearchResult, {results})
+      rows.sort((a:any,b:any) => b._score - a._score)
+      return rows
   }
 })
 
@@ -102,9 +102,9 @@ export const generateAndAddEmbedding = internalAction({
             out.push({
                 _id: doc._id,
                 _score: result._score,
-                // uploadedUser: doc.uploadedUser,
-                // storageId: doc.storageId,
-                // url: doc.url,
+                uploadedUser: doc.uploadedUser,
+                storageId: doc.storageId,
+                url: await ctx.storage.getUrl(doc.storageId) ,
                 name: doc.name,
             })
          }
