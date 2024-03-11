@@ -33,7 +33,7 @@ export const chatWithResume = mutation({
   handler: async (ctx, {sessionId, message, resumeId}) => {
     const resumeEmbeddingId = await ctx.db.query("resumes").filter(q=>q.eq(q.field("_id"),resumeId)).first()
     if(resumeEmbeddingId && resumeEmbeddingId.embeddingId){
-      await ctx.scheduler.runAfter(0, internal.chat.answer, {sessionId, message, resumeEmbeddingId: resumeEmbeddingId.embeddingId})
+      await ctx.scheduler.runAfter(0, internal.chat.answer, {sessionId, message,resumeId})
     }
   }
 })
@@ -42,9 +42,9 @@ export const answer = internalAction({
     args: {
       sessionId: v.string(),
       message: v.string(),
-      resumeEmbeddingId: v.id("resumeEmbeddings"),
+      resumeId: v.id("resumes"),
     },
-    handler: async (ctx, { sessionId, message,resumeEmbeddingId }) => {
+    handler: async (ctx, { sessionId, message,resumeId }) => {
 
       const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
       const chatHistory = new ConvexChatMessageHistory({ sessionId, ctx })
@@ -55,7 +55,7 @@ export const answer = internalAction({
         inputKey:"question",
         returnMessages: true,
       });
-        const resumeText = await ctx.runQuery(internal.resume.getResumeText, { resumeEmbeddingId })
+        const resumeText = await ctx.runQuery(internal.resume.getResumeText, { resumeId })
       const chatPrompt = ChatPromptTemplate.fromMessages([
         [
             "system",

@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import { Modal, Box, Typography, Fade } from "@mui/material";
 import { api } from "../../../convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, useQuery } from "convex/react";
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import {
@@ -23,7 +23,7 @@ const MyProfile: React.FC = () => {
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const generateUploadUrl = useMutation(api.utils.generateUploadUrl);
-  const addResume = useMutation(api.resume.addResume);
+  const addResume = useAction(api.resume.addResume);
   const getUserResumes =
     useQuery(api.resume.getResumesOfUser, {
       user: user?.primaryEmailAddress?.emailAddress || "",

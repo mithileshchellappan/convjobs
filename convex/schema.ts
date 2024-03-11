@@ -12,7 +12,10 @@ export default defineSchema(
       url: v.string(),
       uploadedUser: v.string(),
       storageId: v.id("_storage"),
-      embeddingId: v.optional(v.id("resumeEmbeddings"))
+      embeddingId: v.optional(v.id("resumeEmbeddings")),
+      tags: v.optional(v.array(v.string())),
+      linkedin: v.optional(v.string()),
+      github: v.optional(v.string()),
     }).index("byUser",["uploadedUser"] )
       .index("byEmbedding",["embeddingId"])
     ,
