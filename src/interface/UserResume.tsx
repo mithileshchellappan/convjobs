@@ -8,6 +8,9 @@ interface UserResult {
     url: string;
     uploadedUser: string;
     storageId: Id<"_storage">;
+    tags?: string[] | undefined;
+    linkedin?: string | undefined;
+    github?: string | undefined;
   }
 
   export default UserResult;

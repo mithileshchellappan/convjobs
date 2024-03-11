@@ -8,8 +8,9 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
   return (
     <div
       key={resume.storageId}
-      className="flex gap-4 justify-between items-center bg-dark-background border-gray-700 border p-4 rounded-lg my-4"
+      className=" bg-dark-background border-gray-700 border p-4 rounded-lg my-4"
     >
+      <div className="flex gap-x-4 justify-between items-center">
       <a
         href={resume.url}
         target="_blank"
@@ -43,16 +44,7 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
               />
             </svg>
           </a>
-          {/* <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={async () => {
-              await fetch(resume.url, {
-                method: "DELETE",
-              });
-            }}
-          >
-            🗑️
-          </button> */}
+
         </div>
 
         
@@ -63,8 +55,39 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
           <img src={MyIcon} className="w-6" />
           Chat with Resume
         </button>
+      </div>
+      </div>
+            {/* Tags */}
+            <div className="flex gap-2 mt-4">
+        {resume.tags && resume.tags.map((tag) => (
+          <span
+            key={tag}
+            className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex gap-4 mt-4">
+        {resume.linkedin && (<a
+        type = "button"
+          href={resume.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-4 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        >
+          LinkedIn
+        </a>)}
+       {resume.github && ( <a
+        type = "button"
 
-
+          href={resume.github}
+          target="_blank"
+          rel="noreferrer"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-4 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        >
+          GitHub
+        </a>)}
       </div>
     </div>
   );

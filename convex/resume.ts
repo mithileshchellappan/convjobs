@@ -195,6 +195,9 @@ export const fetchSearchResult = internalQuery({
         storageId: doc.storageId,
         url: await ctx.storage.getUrl(doc.storageId),
         name: doc.name,
+        tags: doc.tags,
+        linkedin: doc.linkedin,
+        github: doc.github
       })
     }
     return out

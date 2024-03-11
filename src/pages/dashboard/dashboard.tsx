@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
       user: user?.primaryEmailAddress?.emailAddress || "",
     }) || [];
 
-    const searchResumes = useAction(api.resume.searchResume)
+  const searchResumes = useAction(api.resume.searchResume)
 
   useEffect(() => {
     console.log(user?.emailAddresses[0].emailAddress);
@@ -63,16 +63,16 @@ const Dashboard: React.FC = () => {
                   id="default-search"
                   className="block w-full p-4 my-8 ps-10 text-sm  border border-gray-700 rounded-lg bg-dark-background focus:border-gray-200 focus:outline-none focus:ring-0 transition duration-700"
                   placeholder="Search Resumes, Users, Techstacks..."
-                  onChange={(e)=> setSearchQuery(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   required
                 />
                 <button
                   type="submit"
                   className="text-white absolute end-2.5 bottom-2.5 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 font-medium rounded-lg text-sm px-4 py-2 "
-                  onClick={async ()=>{
+                  onClick={async () => {
                     console.log(searchQuery)
-                    if(searchQuery && searchQuery?.length>0){
-                      const resumes = await searchResumes({query:searchQuery})
+                    if (searchQuery && searchQuery?.length > 0) {
+                      const resumes = await searchResumes({ query: searchQuery })
                       setSearchResult(resumes)
                     }
                   }}
