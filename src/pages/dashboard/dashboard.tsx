@@ -22,6 +22,8 @@ const Dashboard: React.FC = () => {
 
   const searchResumes = useAction(api.resume.searchResume)
 
+  const [resume, setResume] = useState<UserResult | null>(null);
+
   useEffect(() => {
     console.log(user?.emailAddresses[0].emailAddress);
   }, []);
@@ -81,10 +83,9 @@ const Dashboard: React.FC = () => {
                 </button>
               </div>
             </div>
-
             {searchResult ? (
               getUserResumes.map((resume: UserResult) => {
-                return <ResumeCard resume={resume} />;
+                return <ResumeCard resume={resume} setResume={setResume} />;
               })
             ) : (
               <div className="text-center h-96 flex justify-center items-center px-4 py-8">
@@ -95,7 +96,9 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            <ChatBox />
+            {
+              resume && <ChatBox resume={resume} />
+            }
           </div>
         </Fade>
       </div>

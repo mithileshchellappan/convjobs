@@ -13,7 +13,12 @@ export const listMessages = query({
   },
   handler: async (ctx, {sessionId}) => {
       const messages = await ctx.db.query("messages").filter(q=>q.eq(q.field("sessionId"),sessionId)).collect()
-      const returnMessages = messages.map((message: any) => {
+      const returnMessages: {
+          sessionId: string,
+          message: string,
+          type: string
+      }[]
+       = messages.map((message: any) => {
           return {
               sessionId: message.sessionId,
               message: message.message.data.content,

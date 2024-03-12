@@ -1,24 +1,24 @@
 import UserResult from "@/interface/UserResume";
 import MyIcon from "../../../assets/aiicon.png";
 interface ResumeCardProps {
-  resume: UserResult; // Assuming UserResult is the correct type for your resumes
+  resume: UserResult;
+  setResume: (resume: UserResult) => void;
 }
 
-const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
+const ResumeCard: React.FC<ResumeCardProps> = ({ resume , setResume}) => {
   return (
     <div
       key={resume.storageId}
       className=" bg-dark-background border-gray-700 border p-4 rounded-lg my-4"
     >
       <div className="flex gap-x-4 justify-between items-center">
-        <a
-          href={resume.url}
-          target="_blank"
+        <div
+          onClick={() => setResume(resume)}
           rel="noreferrer"
           className="font-normal text-xl ml-4"
         >
           {resume.name.replace('.pdf','')}
-        </a>
+        </div>
 
         <div className="flex flex-end gap-4">
           {(resume.linkedin && resume.linkedin.length > 0) && (
@@ -86,6 +86,7 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
           <button
             className="flex gap-2 text-white  bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 transition duration-500 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
             type="button"
+            onClick={() => setResume(resume)}
           >
             <img src={MyIcon} className="w-6" />
             Chat with Resume
