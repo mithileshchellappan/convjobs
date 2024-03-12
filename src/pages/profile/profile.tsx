@@ -13,6 +13,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,12 +32,14 @@ const MyProfile: React.FC = () => {
 
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [insightData, setInsightData] = useState<any>(null)
   const generateUploadUrl = useMutation(api.utils.generateUploadUrl);
   const addResume = useAction(api.resume.addResume);
   const getUserResumes =
     useQuery(api.resume.getResumesOfUser, {
       user: user?.primaryEmailAddress?.emailAddress || "",
     }) || [];
+    const getResumeInsights = useAction(api.resume.getResumeInsights);
 
   // TODO - Fetch user resume and display it in the bottom
   // The getUserResumes displays all the resume, fetch the resume of user alone and display it
@@ -210,14 +221,38 @@ const MyProfile: React.FC = () => {
                   <CardTitle>
                     <div className="flex justify-between">
                       <h2>Your Resume</h2>
-                      <button
-                        className="flex gap-2 text-white  bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 transition duration-500 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                        type="button"
-                        // onClick={() => setResume(resume)}
-                      >
-                        <img src={MyIcon} className="w-6" />
-                        Get Resume Insights
-                      </button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button
+                            className="flex gap-2 text-white  bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 transition duration-500 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
+                            type="button"
+                          onClick={async() => {
+                            const resumeInsights = await getResumeInsights({resumeId: getUserResumes[0]._id})
+                            setInsightData(resumeInsights)
+                            console.log(resumeInsights)
+                          }}
+                          >
+                            <img src={MyIcon} className="w-6" />
+                            Get Resume Insights
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Resume Insights</DialogTitle>
+                            <DialogDescription>
+                              Use these insights to level up your resume!
+                            </DialogDescription>
+                          </DialogHeader>
+                          {
+                            insightData && insightData?.improvements.map((improvement: {emoji: string, content: string}) =>(
+                                  <p>{improvement.emoji} {improvement.content}</p>
+                              )
+                            )
+                          }
+                        </DialogContent>
+                      </Dialog>
+
+
                     </div>
                   </CardTitle>
                   <iframe className="rounded" src={myResume} width="1000px" height="550px">

@@ -46,13 +46,54 @@ export const getResumeInsights = action({
   handler: async (ctx, {resumeId}) => {
     const resumeText = await ctx.runQuery(internal.resume.getResumeText, {resumeId})
     const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
+    const jsonSchema = {
+      type: "object",
+      properties: {
+        improvements: {
+          title: "Resume Improvements",
+          description: "An array of suggestions for improvement, each with an emoji and content",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              emoji: {
+                title: "Emoji for Improvement",
+                description: "A unique emoji representing the improvement suggestion",
+                type: "string"
+              },
+              content: {
+                title: "Improvement Suggestion",
+                description: "The text describing the improvement suggestion",
+                type: "string"
+              }
+            },
+            required: ["emoji", "content"]
+          }
+        }
+      },
+      required: ["improvements"]
+    };
+    
+    const openAISchema = {
+      name: "improve_resume",
+      description: "Improve a user's resume with feedback and suggestions",
+      parameters: jsonSchema
+    };
+    
+    const chatPrompt = ChatPromptTemplate.fromMessages([
+      ["human","Resume in text format: {resume}"]
+    ]);
 
-    const chatPrompt = ChatPromptTemplate.fromTemplate("You are a helpful bot that guides people on how to improve their resume. You can provide feedback on the resume, suggest improvements, and answer questions about the resume. You can also provide general advice on how to improve a resume. Provide in json format with the following keys 'improvements':['emoji':'','content':'']. Provide only json do not provide any identations. Your output should be able to be passed through a JSON parser. Do not use any escape characters. Provide emoji without fail each one should be unique. The user's resume text is {resume}")
-
-    const chain = chatPrompt.pipe(model)
-
-    const response = await chain.invoke({resume: resumeText})
-    console.log(JSON.parse(response.content as string))
+    const outputParser = new JsonOutputFunctionsParser();
+    const runnable = createOpenAIFnRunnable({
+      functions: [openAISchema],
+      llm: model,
+      prompt: chatPrompt,
+      outputParser
+    });
+    
+    const result = await runnable.invoke({resume: resumeText});
+    return result
   }
 })
 
