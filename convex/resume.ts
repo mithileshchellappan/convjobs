@@ -108,6 +108,8 @@ export const generateAndAddTags = internalAction({
   args: { resumeId: v.id("resumes") },
   handler: async (ctx, { resumeId }) => {
     const response: any = await ctx.runAction(internal.resume.generateTags, { resumeId })
+    if(response.linkedin.length > 0 && !response.linkedin.startsWith('https://')) response.linkedin = "https://" + response.linkedin
+    if(response.github.length > 0 && !response.github.startsWith('https://')) response.github = "https://" + response.github
     if(response.tags.length > 0 && response.linkedin && response.github){
       await ctx.runMutation(internal.resume.addTags, { resumeId, tags: response.tags, linkedin: response.linkedin, github: response.github })
       return
