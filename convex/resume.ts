@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
-import { internal } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import { embedTexts } from "./ingest/embed";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { createOpenAIFnRunnable, createStructuredOutputRunnable } from "langchain/chains/openai_functions";
@@ -38,6 +38,24 @@ export const insertResume = internalMutation({
     return await ctx.db.insert("resumes", { name, url, uploadedUser, storageId });
   },
 });
+
+export const getResumeInsights = action({
+  args:{
+    resumeId: v.id("resumes")
+  },
+  handler: async (ctx, {resumeId}) => {
+    const resumeText = await ctx.runQuery(internal.resume.getResumeText, {resumeId})
+    const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
+
+    const chatPrompt = ChatPromptTemplate.fromTemplate("You are a helpful bot that guides people on how to improve their resume. You can provide feedback on the resume, suggest improvements, and answer questions about the resume. You can also provide general advice on how to improve a resume. Provide in json format with the following keys 'improvements':['emoji':'','content':'']. Provide only json do not provide any identations. Your output should be able to be passed through a JSON parser. Do not use any escape characters. Provide emoji without fail each one should be unique. The user's resume text is {resume}")
+
+    const chain = chatPrompt.pipe(model)
+
+    const response = await chain.invoke({resume: resumeText})
+    console.log(JSON.parse(response.content as string))
+  }
+})
+
 
 export const getResumesOfUser = query({
   args: {
