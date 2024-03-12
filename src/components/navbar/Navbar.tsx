@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Logo from "../logo/logo";
+import { useClerk } from "@clerk/clerk-react";
 
 const Header = () => {
   let navigate = useNavigate();
+  const {signOut} = useClerk()
 
   return (
     <div className="p-4 pl-24 pr-24 flex justify-between items-center bg-black text-red">
@@ -30,14 +32,17 @@ const Header = () => {
         </a>
 
         {/* TODO - Implement Logout Logic */}
-        <a
-          href="#"
+        <button
           className="group  transition duration-300"
-          onClick={() => navigate("/about")}
+          // onClick={() => signOut(() => navigate("/"))}
+          onClick={() => {
+            signOut()
+            navigate("/login")
+          }}
         >
           Logout
           <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-red-400"></span>
-        </a>
+        </button>
       </div>
     </div>
   );

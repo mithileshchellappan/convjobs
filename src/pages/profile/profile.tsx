@@ -26,10 +26,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyFooter from "@/components/footer/footer";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile: React.FC = () => {
-  const { user } = useUser();
-
+  const signedInUser = useUser();
+  const { user } = signedInUser;
+  let navigate = useNavigate();
+  useEffect(() => {
+    if(!signedInUser.isSignedIn){
+      navigate('/login')
+    }
+  }, []);
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [insightData, setInsightData] = useState<any>(null)
@@ -255,7 +262,7 @@ const MyProfile: React.FC = () => {
 
                     </div>
                   </CardTitle>
-                  <iframe className="rounded" src={myResume} width="1000px" height="550px">
+                  <iframe className="rounded" src={myResume+"#toolbar=0"} width="1000px" height="550px">
                   </iframe>
                 </CardHeader>
               </Card>

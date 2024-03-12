@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { Button, Fade } from "@mui/material";
-import { SignInButton } from "@clerk/clerk-react";
-import { Authenticated } from "convex/react";
+import { SignInButton, useUser } from "@clerk/clerk-react";
+import { Authenticated, Unauthenticated } from "convex/react";
 import { useNavigate } from "react-router-dom";
 import MyFooter from "@/components/footer/footer";
 import ConvLogo from "../../assets/logo.png";
 
 const Login: React.FC = () => {
   let navigate = useNavigate();
+  const user = useUser()
 
   useEffect(() => {
-    // TODO - Change logic after logout is implemented
-    // if(localStorage.getItem('clerk-db-jwt')) {
-    //     navigate('/')
-    // }
+    if(user.isSignedIn){
+      navigate('/dashboard')
+    }
   });
   return (
-    <Authenticated>
+    <Unauthenticated>
       <div className="flex justify-center min-h-screen max-h-screen relative overflow-hidden">
         <Fade in={true} timeout={1000}>
           <div className="container flex justify-center items-center">
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
           <MyFooter />
         </div>
       </div>
-    </Authenticated>
+    </Unauthenticated>
   );
 };
 

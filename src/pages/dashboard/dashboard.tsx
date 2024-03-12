@@ -7,9 +7,17 @@ import ResumeCard from "./components/resume-cards";
 import UserResult from "@/interface/UserResume";
 import ChatBox from "./components/chat-box";
 import { Fade } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
-  const { user } = useUser();
+  const signedInUser = useUser();
+  let navigate = useNavigate();
+  useEffect(() => {
+    if(!signedInUser.isSignedIn){
+      navigate('/login')
+    }
+  }, []);
+  const {user} = signedInUser;
 
   // TODO - Search implementation for the Dashboard
   let [searchResult, setSearchResult] = useState<[]>();

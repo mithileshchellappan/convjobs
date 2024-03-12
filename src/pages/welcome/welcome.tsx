@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fade } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 const Welcome: React.FC = () => {
+  const user = useUser()
+  useEffect(() => {
+    if(!user.isSignedIn){
+      navigate('/login')
+    }
+  }, []);
+
   let navigate = useNavigate();
   return (
     <div>
