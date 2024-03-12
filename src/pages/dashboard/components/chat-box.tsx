@@ -43,6 +43,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
     setHideChat(false);
   },[resume]);
 
+  const clearChat = () => {
+    const sessionId = crypto.randomUUID();
+    setSessionIdForResume(resume.storageId, sessionId);
+    setSessionId(sessionId);
+  }
+
   const listMessages = useQuery(api.chat.listMessages, {sessionId})
   const sendMessage = useMutation(api.chat.chatWithResume)
 
@@ -57,10 +63,17 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
                 Chat with {resume.name.replace(".pdf", "")}
               </a>
             </div>
-            <div className="text-xs text-gray-600">✨ Start chatting with resume!</div>
+            <div className="text-xs text-gray-600">✨ Get Insights from Mr. Jobs!</div>
           </div>
         </div>
         <div className="flex gap-4">
+          <button
+            className="inline-flex hover:bg-gray-700 transition rounded-full p-2"
+            type="button"
+          onClick={clearChat}
+          >
+            🧹
+          </button>
           <button
             className="inline-flex hover:bg-gray-700 transition rounded-full p-2"
             type="button"
