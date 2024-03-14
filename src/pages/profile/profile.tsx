@@ -17,7 +17,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -27,50 +26,41 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyFooter from "@/components/footer/footer";
 import { useNavigate } from "react-router-dom";
+import { Id } from "convex/_generated/dataModel";
+import UserResult from "@/interface/UserResume";
+import { CardsChat } from "../dashboard/components/chat-window";
 
 const MyProfile: React.FC = () => {
   const signedInUser = useUser();
   const { user } = signedInUser;
   let navigate = useNavigate();
   useEffect(() => {
-    if(!signedInUser.isSignedIn){
+    if (!signedInUser.isSignedIn) {
       navigate('/login')
     }
   }, []);
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [insightData, setInsightData] = useState<any>(null)
+  const [selectedChat, setSelectedChat] = useState<string | undefined>();
+  const [myResume, setMyResume] = useState<UserResult | undefined>();
+  const [leftPanelViewType, setLeftPanelViewType] = useState<"chats" | "resumes">("resumes");
+
   const generateUploadUrl = useMutation(api.utils.generateUploadUrl);
   const addResume = useAction(api.resume.addResume);
   const getUserResumes =
     useQuery(api.resume.getResumesOfUser, {
       user: user?.primaryEmailAddress?.emailAddress || "",
     }) || [];
-    const getResumeInsights = useAction(api.resume.getResumeInsights);
+  const getResumeInsights = useAction(api.resume.getResumeInsights);
+  const getSessionsWithResumeId = useQuery(api.chat.listSessionsWithResumeId, { resumeId: myResume?._id });
 
-  // TODO - Fetch user resume and display it in the bottom
-  // The getUserResumes displays all the resume, fetch the resume of user alone and display it
-
-  const [myResume, setMyResume] = useState<string>("");
   useEffect(() => {
     console.log(getUserResumes, user?.primaryEmailAddress?.emailAddress)
     if (getUserResumes.length > 0) {
-      setMyResume(getUserResumes[0].url);
+      setMyResume(getUserResumes[0]);
     }
   }, [getUserResumes]);
-
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 600,
-    bgcolor: "#19191A",
-    border: "0.2px solid #fefefe",
-    borderRadius: "6px",
-    boxShadow: 24,
-    p: 2,
-  };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -88,8 +78,8 @@ const MyProfile: React.FC = () => {
               </div>
               <Tabs defaultValue="account" className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="account">Account</TabsTrigger>
-                  <TabsTrigger value="password">My Chats</TabsTrigger>
+                  <TabsTrigger value="account" onClick={() => setLeftPanelViewType("resumes")}>Account</TabsTrigger>
+                  <TabsTrigger value="password" onClick={() => setLeftPanelViewType("chats")}>My Chats</TabsTrigger>
                 </TabsList>
                 <TabsContent value="account">
                   <Card>
@@ -158,12 +148,37 @@ const MyProfile: React.FC = () => {
                     <CardHeader>
                       <CardTitle>Chats</CardTitle>
                       <CardDescription>
-                        View all the resume chats over here
+                        Select a chat below to view the messages
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2 pt-2">
-                      <h3>No Chats</h3>
-                    </CardContent>
+                      {
+                        getSessionsWithResumeId && getSessionsWithResumeId?.length > 0 ? getSessionsWithResumeId?.map((session: {
+                          resumeId: Id<"resumes">,
+                          sessionId: string,
+                          createdAt: Date,
+                        }, index: number) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              setSelectedChat(session.sessionId);
+                            }}
+                            className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0 cursor-pointer"
+                          >
+                            <span className={`flex h-2 w-2 translate-y-1 rounded-full ${session.sessionId === selectedChat ? "bg-sky-500" : ""}`} />
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium leading-none">
+                                {`Chat on ${new Date(session.createdAt).toLocaleDateString()}`}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                Unread
+                              </p>
+                            </div>
+                          </div>
+
+                            )) : (<p>No Chats Found</p>)
+                      }
+                          </CardContent>
                   </Card>
                 </TabsContent>
               </Tabs>
@@ -222,50 +237,17 @@ const MyProfile: React.FC = () => {
               </Modal>
 
             </div>
-            <div>
-              <Card className="mt-[110px] mx-10 max-width">
-                <CardHeader>
-                  <CardTitle>
-                    <div className="flex justify-between">
-                      <h2>Your Resume</h2>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <button
-                            className="flex gap-2 text-white  bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 transition duration-500 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                            type="button"
-                          onClick={async() => {
-                            const resumeInsights = await getResumeInsights({resumeId: getUserResumes[0]._id})
-                            setInsightData(resumeInsights)
-                            console.log(resumeInsights)
-                          }}
-                          >
-                            <img src={MyIcon} className="w-6" />
-                            Get Resume Insights
-                          </button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <DialogHeader>
-                            <DialogTitle>Resume Insights</DialogTitle>
-                            <DialogDescription>
-                              Use these insights to level up your resume!
-                            </DialogDescription>
-                          </DialogHeader>
-                          {
-                            insightData && insightData?.improvements.map((improvement: {emoji: string, content: string}) =>(
-                                  <p>{improvement.emoji} {improvement.content}</p>
-                              )
-                            )
-                          }
-                        </DialogContent>
-                      </Dialog>
-
-
-                    </div>
-                  </CardTitle>
-                  <iframe className="rounded" src={myResume+"#toolbar=0"} width="1000px" height="550px">
-                  </iframe>
-                </CardHeader>
-              </Card>
+            <div className="w-[110vh] h-[70vh]">
+              {leftPanelViewType === "resumes" && (
+              UserResumeCard()
+              )}
+              {
+                leftPanelViewType === "chats" && (
+                  (
+                    selectedChat && myResume && (<CardsChat sessionId={selectedChat} resumeId={myResume?._id} isProfileView />)
+                )
+                )
+              }
             </div>
           </div>
 
@@ -276,6 +258,64 @@ const MyProfile: React.FC = () => {
       </Fade>
     </>
   );
+
+  function UserResumeCard(): React.ReactNode {
+    return <Card className="mt-[110px] mx-10 max-w max-h">
+      <CardHeader>
+        <CardTitle>
+          <div className="flex justify-between">
+            <h2>Your Resume</h2>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className="flex gap-2 text-white  bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 transition duration-500 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
+                  type="button"
+                  onClick={async () => {
+                    const resumeInsights = await getResumeInsights({ resumeId: getUserResumes[0]._id });
+                    setInsightData(resumeInsights);
+                    console.log(resumeInsights);
+                  } }
+                >
+                  <img src={MyIcon} className="w-6" />
+                  Get Resume Insights
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Resume Insights</DialogTitle>
+                  <DialogDescription>
+                    Use these insights to level up your resume!
+                  </DialogDescription>
+                </DialogHeader>
+                {insightData && insightData?.improvements.map((improvement: { emoji: string; content: string; }) => (
+                  <p>{improvement.emoji} {improvement.content}</p>
+                )
+                )}
+              </DialogContent>
+            </Dialog>
+
+
+          </div>
+        </CardTitle>
+        <iframe className="rounded max-h" src={myResume?.url + "#toolbar=0"} width="1000px" height="600px">
+        </iframe>
+      </CardHeader>
+    </Card>;
+  }
 };
 
 export default MyProfile;
+
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "#19191A",
+  border: "0.2px solid #fefefe",
+  borderRadius: "6px",
+  boxShadow: 24,
+  p: 2,
+};

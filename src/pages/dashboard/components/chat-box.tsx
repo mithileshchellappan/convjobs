@@ -38,11 +38,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
   const [sessionId, setSessionId] = useState<string>("");
 
   useEffect(() => {
-    var sessionId = getSessionIdForResume(resume.storageId);
+    var sessionId = getSessionIdForResume(resume._id);
     console.log("sessionId",sessionId)
     if(!sessionId){
        sessionId = crypto.randomUUID();
-        setSessionIdForResume(resume.storageId, sessionId);
+        setSessionIdForResume(resume._id, sessionId);
       }
     setSessionId(sessionId);
     setHideChat(false);

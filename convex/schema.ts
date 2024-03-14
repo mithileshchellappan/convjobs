@@ -18,7 +18,7 @@ export default defineSchema(
       github: v.optional(v.string()),
     }).index("byUser",["uploadedUser"] )
       .index("byEmbedding",["embeddingId"]),
-      messageResumes: defineTable({
+    messageResumes: defineTable({
         sessionId: v.string(),
         resumeId: v.id("resumes"),
         isRead: v.boolean()
@@ -44,5 +44,5 @@ export default defineSchema(
       }),
     }).index("bySessionId", ["sessionId"]),   
   },
-  { schemaValidation: true }
+  { schemaValidation: false }
 );
