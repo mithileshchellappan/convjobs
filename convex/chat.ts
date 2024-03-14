@@ -7,6 +7,27 @@ import { BufferMemory } from "langchain/memory";
 import { ConvexChatMessageHistory } from "langchain/stores/message/convex";
 import { ConversationChain, ConversationalRetrievalQAChain } from "langchain/chains";
 
+export const listSessionsWithResumeId = query({
+  args:{
+      resumeId: v.optional(v.id("resumes"))
+  },
+    handler: async (ctx, {resumeId}) => {
+        try{
+        const resumeMessages = await ctx.db.query("messageResumes").filter(q=>q.eq(q.field("resumeId"),resumeId)).collect()
+        const returnMessages = resumeMessages.map((message: any) => {
+            return {
+                sessionId: message.sessionId,
+                resumeId: message.resumeId,
+                createdAt: message._creationTime
+            }
+        })
+        return returnMessages
+        }catch(e){
+          return []
+        }
+    }
+  })
+
 export const listMessages = query({
   args:{
       sessionId: v.string()
@@ -38,6 +59,11 @@ export const chatWithResume = mutation({
   handler: async (ctx, {sessionId, message, resumeId}) => {
     const resumeEmbeddingId = await ctx.db.query("resumes").filter(q=>q.eq(q.field("_id"),resumeId)).first()
     if(resumeEmbeddingId && resumeEmbeddingId.embeddingId){
+      const resumeMessages = await ctx.db.query("messageResumes").filter(q=>q.eq(q.field("sessionId"),sessionId)).collect()
+      console.log(resumeMessages)
+      if(resumeMessages.length <= 0){
+        await ctx.db.insert("messageResumes", {sessionId, resumeId,isRead: false})
+      }
       await ctx.scheduler.runAfter(0, internal.chat.answer, {sessionId, message,resumeId})
     }
   }

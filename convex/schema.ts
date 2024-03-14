@@ -17,8 +17,13 @@ export default defineSchema(
       linkedin: v.optional(v.string()),
       github: v.optional(v.string()),
     }).index("byUser",["uploadedUser"] )
-      .index("byEmbedding",["embeddingId"])
-    ,
+      .index("byEmbedding",["embeddingId"]),
+      messageResumes: defineTable({
+        sessionId: v.string(),
+        resumeId: v.id("resumes"),
+        isRead: v.boolean()
+      }).index("bySessionId", ["sessionId"])
+        .index("byResumeId", ["resumeId"]),
     resumeEmbeddings: defineTable({
       embedding: v.array(v.number()),
       text: v.string()
