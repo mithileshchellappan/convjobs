@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.anchor {
+  overflow-anchor: auto;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

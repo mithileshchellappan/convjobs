@@ -41,7 +41,7 @@ export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,
           </div>
         </CardHeader>
         <CardContent>
-        <div className={`flex flex-col-reverse space-y-4 h-[61vh] overflow-y-scroll scrollbar-hidden grow overflow-hidden`}>
+        <div className={`flex flex-col-reverse space-y-4 h-[61vh] overflow-y-scroll no-scrollbar grow overflow-hidden`}>
             {messages && messages.toReversed().map((message, index) => (
               <div
                 key={index}

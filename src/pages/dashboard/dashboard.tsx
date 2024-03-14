@@ -105,7 +105,11 @@ const Dashboard: React.FC = () => {
             )}
 
             {
-              resume && <ChatBox resume={resume} />
+              resume && (
+                <div className="fixed bottom-0 left-0 right-0">
+                  <ChatBox resume={resume} />
+                </div>
+              )
             }
           </div>
         </Fade>

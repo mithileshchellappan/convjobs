@@ -22,27 +22,22 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
     setChatInput(e.target.value);
   };
 
-  let _sendMessage = () => {
-    if(chatInput.length > 0){
-      setChatInput("");
-    sendMessage({sessionId, message: chatInput, resumeId: resume._id})
-    }
-  }
-
   let _handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
-      _sendMessage();
+      console.log("do validate");
+      setChatInput("");
+      sendMessage({sessionId, message: chatInput, resumeId: resume._id})
     }
   };
 
   const [sessionId, setSessionId] = useState<string>("");
 
   useEffect(() => {
-    var sessionId = getSessionIdForResume(resume._id);
+    var sessionId = getSessionIdForResume(resume.storageId);
     console.log("sessionId",sessionId)
     if(!sessionId){
        sessionId = crypto.randomUUID();
-        setSessionIdForResume(resume._id, sessionId);
+        setSessionIdForResume(resume.storageId, sessionId);
       }
     setSessionId(sessionId);
     setHideChat(false);
@@ -68,7 +63,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
                 Chat with {resume.name.replace(".pdf", "")}
               </a>
             </div>
-            <div className="text-xs text-gray-600">Your chat will be shared with the resume owner for privacy purposes.</div>
+            <div className="text-xs text-gray-600">✨ Get Insights from Mr. Jobs!</div>
           </div>
         </div>
         <div className="flex gap-4">
@@ -115,9 +110,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
         </div>
       </div>
       {!hideChat && (
-        <div className="max-h-96">
-          <div className=" overflow-y-scroll max-h-[calc(100%-40px)] tw-flex-grow tw-h-0 tw-min-h-full tw-overflow-y-auto">
-            <div>
+        <div className="min-h-96">
+          <div className="flex-1 justify-end px-4 py-4 h-[80vh] grow overflow-y-scroll no-scrollbar anchor">
             {listMessages?.map((message) => {
               if (message.type === "ai") {
                 return <AIResponse message={message.message} />;
@@ -125,7 +119,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
                 return <UserResponse message={message.message}/>;
               }
             })}
-            </div>
 
             {listMessages?.length === 0 && (
               <AIResponse message = {`Type something to start chatting with ${resume.name.replace(".pdf", "")}!`} />
@@ -133,13 +126,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
 
           </div>
           <div className="flex items-center border-t">
-            <div
+            <label
+              htmlFor="email"
               className="relative text-gray-400 focus-within:text-gray-600 block w-full"
             >
-              <button onClick={_sendMessage} >
-
-              <PaperAirplaneIcon className="w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " />
-              </button>
+              <PaperAirplaneIcon className="pointer-events-none w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " />
 
               <input
                 className="w-full rounded-none text-white p-3 border placeholder-white  focus:rounded-none border-gray-700  bg-dark-background  focus:outline-none focus:ring-0 transition duration-700"
@@ -150,7 +141,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
                 placeholder="..."
                 autoFocus
               />
-            </div>
+            </label>
           </div>
         </div>
       )}
