@@ -36,8 +36,7 @@ const Header = () => {
           className="group  transition duration-300"
           // onClick={() => signOut(() => navigate("/"))}
           onClick={() => {
-            signOut()
-            navigate("/login")
+            signOut().then(() => navigate("/login"))
           }}
         >
           Logout

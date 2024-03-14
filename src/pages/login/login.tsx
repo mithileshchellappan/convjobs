@@ -9,12 +9,12 @@ import ConvLogo from "../../assets/logo.png";
 const Login: React.FC = () => {
   let navigate = useNavigate();
   const user = useUser()
-
   useEffect(() => {
-    if(user.isSignedIn){
-      navigate('/dashboard')
+    console.log(user.isSignedIn, user.isLoaded)
+    if (user.isSignedIn && user.isLoaded) {
+      navigate("/dashboard");
     }
-  });
+  }, [user]);
   return (
     <Unauthenticated>
       <div className="flex justify-center min-h-screen max-h-screen relative overflow-hidden">
