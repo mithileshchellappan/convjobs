@@ -36,7 +36,7 @@ export function CardsChat({session,resume,isProfileView}:{session: SessionResume
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium leading-none">Chat with Ananth Resume</p>
+              <p className="text-sm font-medium leading-none">Chat with {resume.name.replace(".pdf","")}</p>
               <p className="text-sm text-muted-foreground">Message on {new Date(session.createdAt).toDateString()}</p>
             </div>
           </div>
