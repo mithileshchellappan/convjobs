@@ -4,7 +4,7 @@ import { useUser } from "@clerk/clerk-react";
 import { api } from "../../../convex/_generated/api";
 import { Authenticated, useAction, useQuery } from "convex/react";
 import ResumeCard from "./components/resume-cards";
-import UserResult from "@/interface/UserResume";
+import {UserResult} from "@/interface/UserResume";
 import ChatBox from "./components/chat-box";
 import { Fade } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -74,6 +74,17 @@ const Dashboard: React.FC = () => {
                   className="block w-full p-4 my-8 ps-10 text-sm  border border-gray-700 rounded-lg bg-dark-background focus:border-gray-200 focus:outline-none focus:ring-0 transition duration-700"
                   placeholder="Search Resumes, Users, Techstacks..."
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      console.log(searchQuery)
+                      if (searchQuery && searchQuery?.length > 0) {
+                        searchResumes({ query: searchQuery })
+                          .then((resumes) => {
+                            setSearchResult(resumes)
+                          })
+                      }
+                    }
+                  }}
                   required
                 />
                 <button
@@ -86,6 +97,7 @@ const Dashboard: React.FC = () => {
                       setSearchResult(resumes)
                     }
                   }}
+                  disabled={!searchQuery || searchQuery.length === 0}
                 >
                   Search
                 </button>
@@ -96,11 +108,13 @@ const Dashboard: React.FC = () => {
                 return <ResumeCard resume={resume} setResume={setResume} />;
               })
             ) : (
-              <div className="text-center h-96 flex justify-center items-center px-4 py-8">
-                <h2>
+              <div className="text-center flex-col h-96 flex justify-center items-center px-4 py-8">
+                <h3>
                   Search for users based on your requirement to filter out
-                  resumes{" "}
-                </h2>
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Search for terms like "Full Stack Developer", "Finance Analyst"
+                </p>
               </div>
             )}
 
