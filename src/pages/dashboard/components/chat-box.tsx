@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import MyIcon from "../../../assets/aiicon.png";
-import UserResult from "@/interface/UserResume";
+import {UserResult} from "@/interface/UserResume";
 import { getSessionIdForResume, setSessionIdForResume } from "@/utils/storage";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";

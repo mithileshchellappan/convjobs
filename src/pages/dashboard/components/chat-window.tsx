@@ -18,16 +18,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
+import { SessionResume,UserResult } from "@/interface/UserResume";
 
-export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,resumeId:Id<"resumes">, isProfileView: boolean}) {
+export function CardsChat({session,resume,isProfileView}:{session: SessionResume,resume:UserResult, isProfileView: boolean}) {
  
   const [input, setInput] = React.useState("")
   const inputLength = input.trim().length
-  const messages = useQuery(api.chat.listMessages, {sessionId})
+  const messages = useQuery(api.chat.listMessages, {sessionId:session.sessionId})
   const sendMessage = useMutation(api.chat.chatWithResume)
   return (
-      <Card className="mt-[110px] mx-10 w-[100%] h-[70vh]">
+      <Card className="w-[100%] h-[70vh]">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <Avatar>
@@ -36,7 +36,7 @@ export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,
             </Avatar>
             <div>
               <p className="text-sm font-medium leading-none">Chat with Ananth Resume</p>
-              <p className="text-sm text-muted-foreground">Message on 24/02/2011</p>
+              <p className="text-sm text-muted-foreground">Message on {new Date(session.createdAt).toDateString()}</p>
             </div>
           </div>
         </CardHeader>
@@ -63,7 +63,7 @@ export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,
               onSubmit={(event) => {
                 event.preventDefault()
                 if (inputLength === 0) return
-                sendMessage({sessionId,resumeId, message: input})
+                sendMessage({sessionId:session.sessionId,resumeId:resume._id, message: input})
                 setInput("")
               }}
               className="flex w-full items-center space-x-2"

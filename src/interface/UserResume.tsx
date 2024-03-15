@@ -1,6 +1,6 @@
 import { Id } from "convex/_generated/dataModel";
 
-interface UserResult {
+export interface UserResult {
     _id: Id<"resumes">;
     _creationTime: number;
     embeddingId?: Id<"resumeEmbeddings"> | undefined;
@@ -13,4 +13,8 @@ interface UserResult {
     github?: string | undefined;
   }
 
-  export default UserResult;
+export interface SessionResume {
+  resumeId: Id<"resumes">,
+  sessionId: string,
+  createdAt: Date,
+}
