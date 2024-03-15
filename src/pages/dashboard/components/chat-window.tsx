@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input"
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { SessionResume,UserResult } from "@/interface/UserResume";
+import { githubImage } from "./resume-cards";
 
 export function CardsChat({session,resume,isProfileView}:{session: SessionResume,resume:UserResult, isProfileView: boolean}) {
  
@@ -52,7 +53,14 @@ export function CardsChat({session,resume,isProfileView}:{session: SessionResume
                     : "bg-muted"
                 )}
               >
-                {message.message}
+            {
+            message.message.startsWith("Analyze the user's github") ? (
+            <div className="flex flex-row justify-between text-center">
+              <div>{githubImage}</div>
+              <p className="px-1">Analyze GitHub</p>
+            </div>
+            ) : message.message
+          }
               </div>
             ))}
           </div>

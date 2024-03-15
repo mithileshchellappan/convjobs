@@ -139,10 +139,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({ resume }: { resume: UserResult }) => 
             )}
           </div>
           <div className="px-3 py-1 flex flex-row justify-start gap-x-3 bg-transparent">
-          <TooltipProvider >
-            <Tooltip>
+          
+         {resume.github && resume.github.length > 0 && ( <TooltipProvider >  <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline">
+                <Button variant="outline" onClick={
+                   async () => {
+                    await sendMessage({ sessionId, message: `ANALYZE GITHUB {${resume.github}}`, resumeId: resume._id })
+                   }
+                }>
                 <div className="flex flex-row justify-between text-center">
                   <div>{githubImage}</div>
                   <p className="px-1">Analyze GitHub</p>
@@ -153,13 +157,13 @@ const ChatBox: React.FC<ChatBoxProps> = ({ resume }: { resume: UserResult }) => 
                 <p>Ask Mr.Jobs to Analyze the user's GitHub</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider>)}
           <TooltipProvider >
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline"  onClick={
                    async () => {
-                    await sendMessage({ sessionId, message: "Get career highlights", resumeId: resume._id })
+                    await sendMessage({ sessionId, message: "📈Get career highlights", resumeId: resume._id })
                    }
                 }>
                 <div className="flex flex-row justify-between text-center">
@@ -237,7 +241,14 @@ const UserResponse: React.FC<ChatMessageProps> = ({ message }) => {
       </div>
       <div className="flex-1 bg-sky-100 p-2 rounded-lg mb-2 rounded-tr-none text-black">
         <div>
-          {message}
+          {
+            message.startsWith("Analyze the user's github") ? (
+            <div className="flex flex-row justify-between text-center">
+              <div>{githubImage}</div>
+              <p className="px-1">Analyze GitHub</p>
+            </div>
+            ) : message
+          }
         </div>
       </div>
     </div>
