@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import { Modal, Box, Typography, Fade } from "@mui/material";
+import { Modal, Box, Typography, Fade, Divider } from "@mui/material";
 import { api } from "../../../convex/_generated/api";
 import { useAction, useMutation, useQuery } from "convex/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -125,7 +125,7 @@ const MyProfile: React.FC = () => {
                             onClick={() => {
                               setSelectedChat(session);
                             }}
-                            className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0 cursor-pointer"
+                            className="mb-4 grid grid-cols-[25px_1fr]  overflow-y-scroll no-scrollbar items-start pb-4 last:mb-0 last:pb-0 cursor-pointer"
                           >
                             <span className={`flex h-2 w-2 translate-y-1 rounded-full ${session.sessionId === selectedChat?.sessionId ? "bg-sky-500" : ""}`} />
                             <div className="space-y-1">
