@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import MyIcon from "../../../assets/aiicon.png";
-import {UserResult} from "@/interface/UserResume";
+import { UserResult } from "@/interface/UserResume";
 import { getSessionIdForResume, setSessionIdForResume } from "@/utils/storage";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { githubImage } from "./resume-cards";
 
 interface ChatBoxProps {
   resume: UserResult;
@@ -14,7 +17,7 @@ interface ChatMessageProps {
   message: string;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ resume }: { resume: UserResult }) => {
   const [hideChat, setHideChat] = useState<boolean>(false);
   const [chatInput, setChatInput] = useState<string>("");
   const [sessionId, setSessionId] = useState<string>("");
@@ -32,7 +35,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
   };
 
   let _sendMessage = async () => {
-    await sendMessage({sessionId, message: chatInput, resumeId: resume._id})
+    await sendMessage({ sessionId, message: chatInput, resumeId: resume._id })
     setChatInput("");
   }
 
@@ -42,19 +45,19 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
     setSessionId(sessionId);
   }
 
-  const listMessages = useQuery(api.chat.listMessages, {sessionId})
+  const listMessages = useQuery(api.chat.listMessages, { sessionId })
   const sendMessage = useMutation(api.chat.chatWithResume)
 
   useEffect(() => {
     var sessionId = getSessionIdForResume(resume.storageId);
-    console.log("sessionId",sessionId)
-    if(!sessionId){
-       sessionId = crypto.randomUUID();
-        setSessionIdForResume(resume.storageId, sessionId);
-      }
+    console.log("sessionId", sessionId)
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      setSessionIdForResume(resume.storageId, sessionId);
+    }
     setSessionId(sessionId);
     setHideChat(false);
-  },[resume]);
+  }, [resume]);
 
   useEffect(() => {
     if (ref.current) {
@@ -81,7 +84,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
           <button
             className="inline-flex hover:bg-gray-700 transition rounded-full p-2"
             type="button"
-          onClick={clearChat}
+            onClick={clearChat}
           >
             🧹
           </button>
@@ -126,23 +129,57 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
             {listMessages?.map((message) => {
               if (message.type === "ai") {
                 return <AIResponse message={message.message} />;
-              } else if(message.type === "human") {
-                return <UserResponse message={message.message}/>;
+              } else if (message.type === "human") {
+                return <UserResponse message={message.message} />;
               }
             })}
 
             {listMessages?.length === 0 && (
-              <AIResponse message = {`Type something to start chatting with ${resume.name.replace(".pdf", "")}!`} />
+              <AIResponse message={`Type something to start chatting with ${resume.name.replace(".pdf", "")}!`} />
             )}
-
+          </div>
+          <div className="px-3 py-1 flex flex-row justify-start gap-x-3 bg-transparent">
+          <TooltipProvider >
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline">
+                <div className="flex flex-row justify-between text-center">
+                  <div>{githubImage}</div>
+                  <p className="px-1">Analyze GitHub</p>
+                </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Ask Mr.Jobs to Analyze the user's GitHub</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider >
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline"  onClick={
+                   async () => {
+                    await sendMessage({ sessionId, message: "Get career highlights", resumeId: resume._id })
+                   }
+                }>
+                <div className="flex flex-row justify-between text-center">
+                  <div>📈</div>
+                  <p className="px-1">Career Highlights</p>
+                </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Ask Mr.Jobs to get career highlights of the user</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           </div>
           <div className="flex items-center border-t">
             <label
               htmlFor="email"
               className="relative text-gray-400 focus-within:text-gray-600 block w-full"
-
             >
-              <PaperAirplaneIcon className="w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " onClick={_sendMessage}/>
+              <PaperAirplaneIcon className="w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " onClick={_sendMessage} />
 
               <input
                 className="w-full rounded-none text-white p-3 border placeholder-white  focus:rounded-none border-gray-700  bg-dark-background  focus:outline-none focus:ring-0 transition duration-700"
@@ -161,7 +198,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
   );
 };
 
-const AIResponse:React.FC<ChatMessageProps> = ({message}) => {
+const AIResponse: React.FC<ChatMessageProps> = ({ message }) => {
   return (<>
     <div className="flex flex-col justify-start items-start mb-4">
       <div className="flex-none flex justify-center items-center mr-4 pb-2">
@@ -177,8 +214,8 @@ const AIResponse:React.FC<ChatMessageProps> = ({message}) => {
   </>)
 }
 
-const UserResponse: React.FC<ChatMessageProps> = ({message}) => {
-  return (            
+const UserResponse: React.FC<ChatMessageProps> = ({ message }) => {
+  return (
     <div className="flex flex-col justify-start items-end mb-4">
       <div className="flex-none flex justify-center items-center mr-4 pb-2">
         <p className="text-sm mr-4">You</p>
