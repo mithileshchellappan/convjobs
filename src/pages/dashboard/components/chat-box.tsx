@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import MyIcon from "../../../assets/aiicon.png";
 import {UserResult} from "@/interface/UserResume";
@@ -17,6 +17,8 @@ interface ChatMessageProps {
 const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
   const [hideChat, setHideChat] = useState<boolean>(false);
   const [chatInput, setChatInput] = useState<string>("");
+  const [sessionId, setSessionId] = useState<string>("");
+  const ref = useRef<HTMLDivElement>(null);
 
   let handleInput = (e: any) => {
     setChatInput(e.target.value);
@@ -25,12 +27,23 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
   let _handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       console.log("do validate");
-      setChatInput("");
-      sendMessage({sessionId, message: chatInput, resumeId: resume._id})
+      _sendMessage()
     }
   };
 
-  const [sessionId, setSessionId] = useState<string>("");
+  let _sendMessage = async () => {
+    await sendMessage({sessionId, message: chatInput, resumeId: resume._id})
+    setChatInput("");
+  }
+
+  const clearChat = () => {
+    const sessionId = crypto.randomUUID();
+    setSessionIdForResume(resume.storageId, sessionId);
+    setSessionId(sessionId);
+  }
+
+  const listMessages = useQuery(api.chat.listMessages, {sessionId})
+  const sendMessage = useMutation(api.chat.chatWithResume)
 
   useEffect(() => {
     var sessionId = getSessionIdForResume(resume.storageId);
@@ -43,14 +56,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
     setHideChat(false);
   },[resume]);
 
-  const clearChat = () => {
-    const sessionId = crypto.randomUUID();
-    setSessionIdForResume(resume.storageId, sessionId);
-    setSessionId(sessionId);
-  }
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [ref, listMessages]);
 
-  const listMessages = useQuery(api.chat.listMessages, {sessionId})
-  const sendMessage = useMutation(api.chat.chatWithResume)
 
   return (
     <div className="w-1/3 flex flex-col border bg-dark-background border-x-gray-700 border-top-gray-700 rounded-sm shadow-md  absolute end-0 bottom-0">
@@ -63,7 +74,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
                 Chat with {resume.name.replace(".pdf", "")}
               </a>
             </div>
-            <div className="text-xs text-gray-600">✨ Get Insights from Mr. Jobs!</div>
+            <div className="text-xs text-gray-600">The chat will be shared with the resume owner.</div>
           </div>
         </div>
         <div className="flex gap-4">
@@ -110,8 +121,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
         </div>
       </div>
       {!hideChat && (
-        <div className="min-h-96">
-          <div className="flex-1 justify-end px-4 py-4 h-[80vh] grow overflow-y-scroll no-scrollbar anchor">
+        <div className="min-h-96 ">
+          <div ref={ref} className="flex-1 flex-col-reverse justify-end px-4 py-4 h-[80vh] grow overflow-y-scroll no-scrollbar anchor">
             {listMessages?.map((message) => {
               if (message.type === "ai") {
                 return <AIResponse message={message.message} />;
@@ -129,8 +140,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({resume}:{resume: UserResult}) => {
             <label
               htmlFor="email"
               className="relative text-gray-400 focus-within:text-gray-600 block w-full"
+
             >
-              <PaperAirplaneIcon className="pointer-events-none w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " />
+              <PaperAirplaneIcon className="w-6 h-6 absolute top-3 right-4 text-sky-500 cursor-pointer " onClick={_sendMessage}/>
 
               <input
                 className="w-full rounded-none text-white p-3 border placeholder-white  focus:rounded-none border-gray-700  bg-dark-background  focus:outline-none focus:ring-0 transition duration-700"
@@ -156,7 +168,7 @@ const AIResponse:React.FC<ChatMessageProps> = ({message}) => {
         <img className="rounded-full w-7 mr-2" src={MyIcon} />
         <p className="text-sm">Mr. Jobs</p>
       </div>
-      <div className="flex-1 bg-sky-600 text-white p-2 rounded-lg mb-2 rounded-tl-none">
+      <div className="flex-1 bg-sky-600 text-white p-2 rounded-lg mb-2 rounded-tl-none px-2 w-[90%]">
         <div>
           {message}
         </div>
