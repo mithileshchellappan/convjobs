@@ -27,7 +27,7 @@ export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,
   const messages = useQuery(api.chat.listMessages, {sessionId})
   const sendMessage = useMutation(api.chat.chatWithResume)
   return (
-      <Card className="mt-[110px] mx-10 w-[100%]">
+      <Card className="mt-[110px] mx-10 w-[100%] h-[70vh]">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <Avatar>
@@ -41,12 +41,12 @@ export function CardsChat({sessionId,resumeId,isProfileView}:{sessionId: string,
           </div>
         </CardHeader>
         <CardContent>
-        <div className={`flex flex-col-reverse space-y-4 h-[61vh] overflow-y-scroll no-scrollbar grow overflow-hidden`}>
+        <div className={`flex flex-col-reverse space-y-4 h-[58vh] overflow-y-scroll no-scrollbar grow overflow-hidden`}>
             {messages && messages.toReversed().map((message, index) => (
               <div
                 key={index}
                 className={cn(
-                  "flex w-max-[100%] max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                  "flex max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
                   message.type === "human"
                     ? "ml-auto bg-primary text-primary-foreground"
                     : "bg-muted"

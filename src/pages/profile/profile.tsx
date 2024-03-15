@@ -260,7 +260,7 @@ const MyProfile: React.FC = () => {
   );
 
   function UserResumeCard(): React.ReactNode {
-    return <Card className="mt-[110px] mx-10 max-w max-h">
+    return <Card className="mt-[110px] mx-10 w-[100%] h-[100%]">
       <CardHeader>
         <CardTitle>
           <div className="flex justify-between">
@@ -297,7 +297,7 @@ const MyProfile: React.FC = () => {
 
           </div>
         </CardTitle>
-        <iframe className="rounded max-h" src={myResume?.url + "#toolbar=0"} width="1000px" height="600px">
+        <iframe className="rounded max-h" src={myResume?.url + "#toolbar=0"} width="100%" height="550px">
         </iframe>
       </CardHeader>
     </Card>;
