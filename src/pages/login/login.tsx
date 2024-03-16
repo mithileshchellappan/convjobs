@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Button, Fade } from "@mui/material";
+import { Fade } from "@mui/material";
 import { SignInButton, useUser } from "@clerk/clerk-react";
-import { Authenticated, Unauthenticated } from "convex/react";
+import { Unauthenticated } from "convex/react";
 import { useNavigate } from "react-router-dom";
 import MyFooter from "@/components/footer/footer";
 import ConvLogo from "../../assets/logo.png";

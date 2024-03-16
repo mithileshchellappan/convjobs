@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import { Modal, Box, Typography, Fade, Divider, Skeleton } from "@mui/material";
+import { Modal, Box, Typography, Fade, Skeleton } from "@mui/material";
 import { api } from "../../../convex/_generated/api";
 import { useAction, useMutation, useQuery } from "convex/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,7 +26,6 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyFooter from "@/components/footer/footer";
 import { useNavigate } from "react-router-dom";
-import { Id } from "convex/_generated/dataModel";
 import { SessionResume, UserResult } from "@/interface/UserResume";
 import { CardsChat } from "../dashboard/components/chat-window";
 

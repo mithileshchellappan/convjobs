@@ -1,9 +1,9 @@
 import { v } from "convex/values";
-import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
-import { api, internal } from "./_generated/api";
+import { action, internalAction, internalMutation, internalQuery, query } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { embedTexts } from "./ingest/embed";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { createOpenAIFnRunnable, createStructuredOutputRunnable } from "langchain/chains/openai_functions";
+import { createOpenAIFnRunnable } from "langchain/chains/openai_functions";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 

@@ -4,7 +4,6 @@ import Dashboard from "./pages/dashboard/dashboard";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/login";
 import MyProfile from "./pages/profile/profile";
-import { SignedIn } from "@clerk/clerk-react";
 
 export default function App() {
   return (

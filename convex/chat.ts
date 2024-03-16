@@ -1,11 +1,11 @@
 import { v } from "convex/values";
-import { action, internalAction, mutation, query } from "./_generated/server";
+import { internalAction, mutation, query } from "./_generated/server";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { ChatPromptTemplate, PromptTemplate } from "langchain/prompts";
+import { ChatPromptTemplate } from "langchain/prompts";
 import { internal } from "./_generated/api";
 import { BufferMemory } from "langchain/memory";
 import { ConvexChatMessageHistory } from "langchain/stores/message/convex";
-import { ConversationChain, ConversationalRetrievalQAChain } from "langchain/chains";
+import { ConversationChain } from "langchain/chains";
 
 export const listSessionsWithResumeId = query({
   args: {
@@ -73,7 +73,7 @@ export const analyzeGithub = internalAction({
   args: {
     githubLink: v.string(),
   },
-  handler: async (ctx, { githubLink }) => {
+  handler: async (_, { githubLink }) => {
     const headers = {
       "User-Agent": "convjobs"
     };
