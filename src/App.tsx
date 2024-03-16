@@ -1,7 +1,7 @@
 import About from "./pages/about/about";
 import Welcome from "./pages/welcome/welcome";
 import Dashboard from "./pages/dashboard/dashboard";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/login";
 import MyProfile from "./pages/profile/profile";
 
