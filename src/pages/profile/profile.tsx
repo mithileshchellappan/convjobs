@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import { Modal, Box, Typography, Fade, Divider } from "@mui/material";
+import { Modal, Box, Typography, Fade, Divider, Skeleton } from "@mui/material";
 import { api } from "../../../convex/_generated/api";
 import { useAction, useMutation, useQuery } from "convex/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -304,10 +304,13 @@ const MyProfile: React.FC = () => {
                     Use these insights to level up your resume!
                   </DialogDescription>
                 </DialogHeader>
-                {insightData && insightData?.improvements.map((improvement: { emoji: string; content: string; }) => (
+                {insightData ? insightData?.improvements.map((improvement: { emoji: string; content: string; }) => (
                   <p>{improvement.emoji} {improvement.content}</p>
                 )
-                )}
+                ) : <div className="flex items-center justify-center space-x-4">
+                  <Skeleton className="h-[20px] w-[250px]">Loading</Skeleton>
+                </div>
+                  }
               </DialogContent>
             </Dialog>
 

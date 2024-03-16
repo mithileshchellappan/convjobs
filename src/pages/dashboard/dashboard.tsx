@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="text-white absolute end-2.5 bottom-2.5 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 font-medium rounded-lg text-sm px-4 py-2 "
+                  className="cursor-pointer text-white absolute end-2.5 bottom-2.5 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 font-medium rounded-lg text-sm px-4 py-2 "
                   onClick={async () => {
                     console.log(searchQuery)
                     if (searchQuery && searchQuery?.length > 0) {
@@ -113,7 +113,7 @@ const Dashboard: React.FC = () => {
                   Search for users based on your requirement to filter out
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Search for terms like "Full Stack Developer", "Finance Analyst"
+                  Search for terms like "Full Stack Developer", "Business Analyst"
                 </p>
               </div>
             )}
