@@ -204,11 +204,11 @@ const MyProfile: React.FC = () => {
                 myResume ? (
                   <UserResumeCard />
                 ) :
-                    <div className="flex flex-col w-[100%] h-[60%] items-center justify-center">
+                    <div className="flex flex-col w-[100%] h-[60%] ml-2 items-center justify-center">
                       <h1 className="text-l font-medium leading-none">
                         No Resume Found
                       </h1>
-                      <h2 className="text-m text-muted-foreground">
+                      <h2 className="text-sm text-muted-foreground">
                         Please add a resume to your profile
                       </h2>
                     </div>              
@@ -216,11 +216,11 @@ const MyProfile: React.FC = () => {
               {
                 leftPanelViewType === "chats" && (
                   (
-                    selectedChat ? myResume && (<CardsChat session={selectedChat} resume={myResume} isProfileView />) : <div className="flex flex-col w-[100%] h-[60%] items-center justify-center">
+                    selectedChat ? myResume && (<CardsChat session={selectedChat} resume={myResume} isProfileView />) : <div className="flex flex-col ml-2 w-[100%] h-[60%] items-center justify-center">
                     <h1 className="text-l font-medium leading-none">
                       No chat selected
                     </h1>
-                    <h2 className="text-m text-muted-foreground">
+                    <h2 className="text-sm text-muted-foreground">
                       Select a chat to view the messages
                     </h2>
                   </div> 
