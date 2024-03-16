@@ -15,9 +15,6 @@ export const addResume = action({
     storageId: v.id("_storage")
   },
   handler: async (ctx, { name, url, uploadedUser, storageId }) => {
-    // const preExistingResume = await ctx.db.query("resumes")
-    //                                       .filter(q=>q.eq(q.field("uploadedUser"),uploadedUser))
-    //                                       .collect()
     const result = await ctx.runMutation(internal.resume.insertResume, { name, url, uploadedUser, storageId });
     await ctx.runAction(internal.resume.generateAndAddEmbedding, {
       resumeId: result,
@@ -35,6 +32,12 @@ export const insertResume = internalMutation({
     storageId: v.id("_storage"),
   },
   handler: async (ctx, { name, url, uploadedUser, storageId }) => {
+    const preExistingResume = await ctx.db.query("resumes")
+                                          .filter(q=>q.eq(q.field("uploadedUser"),uploadedUser))
+                                          .collect()
+    if(preExistingResume.length > 0){
+      await ctx.db.delete(preExistingResume[0]._id)
+    }
     return await ctx.db.insert("resumes", { name, url, uploadedUser, storageId });
   },
 });
