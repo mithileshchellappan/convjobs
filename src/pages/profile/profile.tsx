@@ -27,6 +27,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { SessionResume, UserResult } from "@/interface/UserResume";
 import { CardsChat } from "../dashboard/components/chat-window";
+import { Button } from "@/components/ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const MyProfile: React.FC = () => {
   const signedInUser = useUser();
@@ -44,6 +46,7 @@ const MyProfile: React.FC = () => {
   const [myResume, setMyResume] = useState<UserResult | undefined>();
   const [leftPanelViewType, setLeftPanelViewType] = useState<"chats" | "resumes">("resumes");
   const [openInsight, setOpenInsight] = useState(false);
+  const [isResumeUploading, setIsResumeUploading] = useState(false);
 
   const generateUploadUrl = useMutation(api.utils.generateUploadUrl);
   const addResume = useAction(api.resume.addResume);
@@ -161,15 +164,17 @@ const MyProfile: React.FC = () => {
 
                   <p className="my-4"> {selectedFile && selectedFile!.name}</p>
                   <div className="flex justify-end self-end">
-                    <button className="text-white bg-gray-700 transition hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                    <Button className="text-white bg-gray-700 transition hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
                       Close
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                    
                       type="button"
                       className="text-white bg-blue-700 hover:bg-blue-800  transition focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                      disabled={!selectedFile}
+                      disabled={isResumeUploading}
                       onClick={async () => {
                         if (selectedFile) {
+                          setIsResumeUploading(true);
                           const postUrl = await generateUploadUrl();
                           const response = await fetch(postUrl, {
                             method: "POST",
@@ -186,12 +191,17 @@ const MyProfile: React.FC = () => {
                             storageId,
                           }).then(() => {
                             setOpen(false);
+                            setIsResumeUploading(false);
                           });
                         }
                       }}
                     >
-                      Upload
-                    </button>
+                    {
+                      isResumeUploading ? <div className="flex items-center justify-center space-x-4">
+                       <ReloadIcon className="animate-spin h-6 w-6 mr-1" /> Uploading
+                      </div> : <>Upload</>
+                    }
+                    </Button>
                   </div>
                 </Box>
               </Modal>

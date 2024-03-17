@@ -28,7 +28,7 @@ export function CardsChat({session,resume,isProfileView}:{session: SessionResume
   const messages = useQuery(api.chat.listMessages, {sessionId:session.sessionId})
   const sendMessage = useMutation(api.chat.chatWithResume)
   return (
-      <Card className="w-[100%] h-[70vh]">
+      <Card className="w-[100%] h-[100%]">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <Avatar>
