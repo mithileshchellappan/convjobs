@@ -23,10 +23,10 @@ const Dashboard: React.FC = () => {
   let [searchResult, setSearchResult] = useState<[]>();
   let [searchQuery, setSearchQuery] = useState<string | null>("");
 
-  const getUserResumes =
-    useQuery(api.resume.getResumesOfUser, {
-      user: user?.primaryEmailAddress?.emailAddress || "",
-    }) || [];
+  // const getUserResumes =
+  //   useQuery(api.resume.getResumesOfUser, {
+  //     user: user?.primaryEmailAddress?.emailAddress || "",
+  //   }) || [];
 
   const searchResumes = useAction(api.resume.searchResume)
 
