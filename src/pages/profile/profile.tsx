@@ -197,7 +197,7 @@ const MyProfile: React.FC = () => {
               </Modal>
 
             </div>
-            <div className="mt-[110px] mx-10 w-[110vh] h-[70%]">
+            <div className="mt-[80px] mx-10 w-[110vh] h-[90%]">
               {leftPanelViewType === "resumes" && (
               
                 myResume ? (
