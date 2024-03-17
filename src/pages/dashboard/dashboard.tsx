@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
       <div className="min-h-screen ">
         <Navbar />
         <Fade in={true} timeout={1000}>
-          <div className="my-5 container">
-            <h1>Welcome, {user?.firstName}</h1>
+          <div className="my-4 container">
+            <h1>Welcome {user?.firstName}</h1>
             <div>
               <label
                 htmlFor="default-search"
@@ -80,7 +80,6 @@ const Dashboard: React.FC = () => {
                       if (searchQuery && searchQuery?.length > 0) {
                         searchResumes({ query: searchQuery })
                           .then((resumes) => {
-                            console.log(resumes.length,resumes)
                             setSearchResult(resumes)
                           })
                       }
@@ -105,11 +104,9 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {searchResult ? (
-              <>
-                {getUserResumes.map((resume) => (
-                  <ResumeCard resume={resume} setResume={setResume} />
-                ))}
-              </>
+              searchResult.map((resume: UserResult) => {
+                return <ResumeCard resume={resume} setResume={setResume} />;
+              })
             ) : (
               <div className="text-center flex-col h-96 flex justify-center items-center px-4 py-8">
                 <h3>
