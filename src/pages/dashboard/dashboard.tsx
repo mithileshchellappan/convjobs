@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
       <div className="min-h-screen ">
         <Navbar />
         <Fade in={true} timeout={1000}>
-          <div className="my-12 container">
-            <h1>Welcome {user?.firstName}</h1>
+          <div className="my-5 container">
+            <h1>Welcome, {user?.firstName}</h1>
             <div>
               <label
                 htmlFor="default-search"
@@ -105,9 +105,11 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {searchResult ? (
-              getUserResumes.map((resume: UserResult) => {
-                return <ResumeCard key={Math.random()*100} resume={resume} setResume={setResume} />;
-              })
+              <>
+                {getUserResumes.map((resume) => (
+                  <ResumeCard resume={resume} setResume={setResume} />
+                ))}
+              </>
             ) : (
               <div className="text-center flex-col h-96 flex justify-center items-center px-4 py-8">
                 <h3>
