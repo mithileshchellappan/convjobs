@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
             </div>
             {searchResult ? (
               getUserResumes.map((resume: UserResult) => {
-                return <ResumeCard resume={resume} setResume={setResume} />;
+                return <ResumeCard key={Math.random()*100} resume={resume} setResume={setResume} />;
               })
             ) : (
               <div className="text-center flex-col h-96 flex justify-center items-center px-4 py-8">
