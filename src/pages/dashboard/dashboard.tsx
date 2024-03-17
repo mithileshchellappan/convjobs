@@ -80,6 +80,7 @@ const Dashboard: React.FC = () => {
                       if (searchQuery && searchQuery?.length > 0) {
                         searchResumes({ query: searchQuery })
                           .then((resumes) => {
+                            console.log(resumes.length,resumes)
                             setSearchResult(resumes)
                           })
                       }
