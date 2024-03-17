@@ -125,7 +125,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ resume }: { resume: UserResult }) => 
       </div>
       {!hideChat && (
         <div className="min-h-96 ">
-          <div ref={ref} className="flex-1 flex-col-reverse justify-end px-4 py-4 h-[80vh] grow overflow-y-scroll no-scrollbar anchor">
+          <div ref={ref} className="flex-1 flex-col-reverse justify-end px-4 py-4 h-[70vh] grow overflow-y-scroll no-scrollbar anchor">
             {listMessages?.map((message) => {
               if (message.type === "ai") {
                 return <AIResponse message={message.message} />;

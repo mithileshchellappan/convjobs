@@ -66,14 +66,14 @@ const MyProfile: React.FC = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
-    <>
+    <div className="overflow-y-scroll no-scrollbar mb-5">
       <Navbar />
       <Fade in={true} timeout={1000}>
         <div className="container">
           {/*ROOT*/}
           <div className="flex">
             <div>
-              <div className="my-8">
+              <div className="my-4">
                 <h1>{user?.firstName}'s Profile</h1>
               </div>
               <Tabs defaultValue="account" className="w-[400px]">
@@ -198,7 +198,7 @@ const MyProfile: React.FC = () => {
               </Modal>
 
             </div>
-            <div className="mt-[110px] mx-10 w-[110vh] h-[70vh]">
+            <div className="mt-[110px] mx-10 w-[110vh] h-[70%]">
               {leftPanelViewType === "resumes" && (
               
                 myResume ? (
@@ -230,12 +230,12 @@ const MyProfile: React.FC = () => {
             </div>
           </div>
 
-          <div className="fixed bottom-0 w-full left-0">
+          {/* <div className="fixed bottom-0 w-full left-0">
             <MyFooter />
-          </div>
+          </div> */}
         </div>
       </Fade>
-    </>
+    </div>
   );
 
   function AddResumeButton() {
@@ -316,7 +316,7 @@ const MyProfile: React.FC = () => {
 
           </div>
         </CardTitle>
-        <iframe className="rounded max-h" src={myResume?.url + "#toolbar=0"} width="100%" height="550px">
+        <iframe className="rounded max-h" src={myResume?.url + "#toolbar=0&navpanes=0"} width="100%" height="500vh">
         </iframe>
       </CardHeader>
     </Card>;
