@@ -24,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MyFooter from "@/components/footer/footer";
 import { useNavigate } from "react-router-dom";
 import { SessionResume, UserResult } from "@/interface/UserResume";
 import { CardsChat } from "../dashboard/components/chat-window";
