@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { useUser } from "@clerk/clerk-react";
 import { api } from "../../../convex/_generated/api";
-import { Authenticated, useAction, useQuery } from "convex/react";
+import { Authenticated, useAction } from "convex/react";
 import ResumeCard from "./components/resume-cards";
 import {UserResult} from "@/interface/UserResume";
 import ChatBox from "./components/chat-box";
