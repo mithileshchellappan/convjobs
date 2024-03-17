@@ -20,24 +20,24 @@ const aboutItems: AboutItem[] = [
   {
     title: "What actually is ConvJobs?",
     content:
-      "If you are seeking a job or seeking a candidate the internet right now is polluted with lots of websites for it, where you need to enter like a 100 fields each time.",
-    subContent: "ConvJobs elminates this by utilizing the predominatory source of information, the resume. We use Convex to analyze the resume and provide a seamless experience for the user to find the right job or the right candidate.",
-    position: "left",
+      "If you are a job seeker searching for the right job or a recruiter looking for the right candidate the internet right now might not be the ideal place for it as it is polluted with lots of websites, where you are required to enter multiple fields which feels like an endless chore, and job seekers might not necessarily find your ideal job and recruiters may have to choose between endless candidates, who might not be the ideal job - candidate fit.",
+    subContent:"ConvJobs eliminates this by utilizing the predominantory source of information, the user’s resume. We use Convex to analyze the resume and provide a seamless experience for the users aka you to find the right job or the right candidate.",
+      position: "left",
     image: one,
   },
   {
     title: "How it works?",
     content:
-      "Candidates submit your resume to ConvJobs, and we tokenize it and store it in our database. As a recruiter you can search for your listing with the keywords and the skills that you look for.",
-    subContent: "We then produce a list of the perfect candidates from all the resumes that our users have submitted. They are ranked based on the skills and the experience that they have and the recruiter has searched for. Our AI powered chatbot enables the recruiter to chat with the resume for more details and provides with insights on the resume.",
-    position: "right",
+      "As Job seekers/Candidates you can submit your resumes to ConvJobs, and we tokenise and store it in our database. As a recruiter, you can search for your ideal candidate by listing the relevant keywords and skills that you are looking for.",
+       subContent: "Once you as a recruiter have searched for a role, we produce a list of the perfect/ ideal candidates fit for the role based on their resumes submitted into the database, the candidates are ranked based on their skills and experiences and things relevant to the job search, once as a recruiter you choose a candidate, our application’s built-in AI-powered chatbot helps you interact with the resume for details and insights about the candidate given by our chatbot based off the resume.",
+       position: "right",
     image: two,
   },
   {
     title: "How does it help as a candidate?",
-    content:
-      "As a candidate, you can submit your resume to us and that will be the only source of information that you need to provide. The more detailed the resume, the better the chances of getting hired.",
-    subContent: "We will match your resume with the keywords that the recruiter has searched for and provide you with the best matches. You can receive insights on the resume submitted and you can use it to improve your resume even more. You can access the chat history of the recruiter interacting with your resume using our AI powered chatbot.",
+    subContent:
+      "As a candidate you also receive insights on the resumes submitted which you can use to enhance and further improve your resume, you can also access the chat history i.e. when the recruiter has interacted with your resume using our app’s AI chatbot.",
+    content: "Your resume is the forefront for data about you. Recruiters can search for you based on your skills and experiences..",
 
     position: "left",
     image: three,
@@ -45,16 +45,16 @@ const aboutItems: AboutItem[] = [
   {
     title: "How is Convex used?",
     content:
-      "Convex sits at the forefront of ConvJobs. We store the resumes in the object storage provided by Convex and utilize Convex-Langchain to tokenize the resume and store it. Utilizing Vector Search provided by Convex enables recruiters to be matched with the most eligible candidates.",
-    subContent: "Using Convex's integration with Langchain we are able to seamlessly connect the resume and OpenAI's GPT enabling recruiters to chat with the candidate's resume. Since everything is handled by Convex we don't feel a need to utilize any Websockets for instant updates.  ",
-    position: "right",
+      "Convex sits at the forefront of ConvJobs. our system stores the resumes in the object storage provided by Convex and utilizes Convex-Langchain to tokenize the resume. Utilizing Vector Search provided by Convex enables recruiters to be matched with the most eligible candidates.",
+      subContent: "Using Convex's integration with Langchain we can seamlessly connect the resume and OpenAI's GPT enabling recruiters to chat with the candidate's resume. Since everything is handled by Convex there is no need for any Websockets for instant updates.",
+      position: "right",
     image: four,
   },
   {
     title: "What's next?",
-    subheading: "We have so much in plan for the future of ConvJobs!",
-    content: "・Starting with an inhouse resume generator adhering to the industry standards of resumes \n.・AI based tests for the candidate to check their skills.",
-    subContent: "・Using Convex's scheduler to send periodic updates to candidates. \n・Live Chat between the recruiter and the candidate.",
+    subheading: "We have a lot going forward for the future of ConvJobs!",
+    content: "・Starting with an in-house resume generator that adheres to the industry standards of resumes \n.・AI based tests for the candidate to check their skillsets.",
+    subContent: "・Using Convex's scheduler to send periodic updates and insights to candidates. \n・Live Chat between the recruiter and the candidate.",
     position: "left",
     image: four,
   },
